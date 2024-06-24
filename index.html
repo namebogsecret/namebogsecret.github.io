@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <title>My GitHub Repositories</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,43 +21,63 @@
             margin: 0;
             padding: 0;
         }
+
         header {
             background-color: #333;
             color: #fff;
             padding: 1rem 0;
             text-align: center;
-            margin-bottom: 2rem;
         }
+
         h1 {
             margin: 0;
         }
+
         .container {
             width: 80%;
-            margin: 0 auto;
+            margin: 2rem auto;
             background-color: #fff;
             padding: 2rem;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         ul {
             list-style: none;
             padding: 0;
         }
+
         li {
             margin-bottom: 1rem;
         }
+
         a {
             color: #333;
             text-decoration: none;
             font-weight: bold;
+            display: flex;
+            align-items: center;
         }
+
         a:hover {
             text-decoration: underline;
         }
+
         .repo-description {
             color: #555;
         }
+
+        .screenshot-container {
+            margin-top: 1rem;
+        }
+
+        .screenshot {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 1rem;
+        }
     </style>
 </head>
+
 <body>
     <header>
         <h1>My GitHub Repositories</h1>
@@ -63,46 +85,59 @@
     <div class="container">
         <ul>
             <li>
-                <a href="https://github.com/namebogsecret/Automatizator">Automatizator</a>
+                <a href="https://pypi.org/project/butch-filename-substring-remover/"><i class="fab fa-python"></i>&nbsp;butch-filename-substring-remover</a>
+                <p class="repo-description">Tool for removing substrings from filenames and directories available on PyPI.</p>
+            </li>
+            <li>
+                <a href="https://github.com/namebogsecret/Automatizator"><i class="fab fa-github"></i>&nbsp;Automatizator</a>
                 <p class="repo-description">Automation scripts for various tasks written in Python.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/butch_filename_substring_remover">butch_filename_substring_remover</a>
+                <a href="https://github.com/namebogsecret/butch_filename_substring_remover"><i class="fab fa-github"></i>&nbsp;butch_filename_substring_remover</a>
                 <p class="repo-description">Tool for removing substrings from filenames and directories.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/first-contributions">first-contributions</a>
+                <a href="https://github.com/namebogsecret/first-contributions"><i class="fab fa-github"></i>&nbsp;first-contributions</a>
                 <p class="repo-description">Helping beginners contribute to open source projects.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/namebogsecret.github.io">namebogsecret.github.io</a>
+                <a href="https://github.com/namebogsecret/namebogsecret.github.io"><i class="fab fa-github"></i>&nbsp;namebogsecret.github.io</a>
                 <p class="repo-description">My personal website hosted on GitHub Pages.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/learnarmenianalphabet">learnarmenianalphabet</a>
+                <a href="https://github.com/namebogsecret/learnarmenianalphabet"><i class="fab fa-github"></i>&nbsp;learnarmenianalphabet</a>
                 <p class="repo-description">Script for learning the Armenian alphabet.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/server_manager">server_manager</a>
+                <a href="https://github.com/namebogsecret/server_manager"><i class="fab fa-github"></i>&nbsp;server_manager</a>
                 <p class="repo-description">Server management scripts written in Python.</p>
+                <div class="screenshot-container">
+                    <img class="screenshot" src="/images/server_manager_1.jpeg" alt="Screenshot 1">
+                    <img class="screenshot" src="/images/server_manager_2.jpeg" alt="Screenshot 2">
+                    <img class="screenshot" src="/images/server_manager_3.jpeg" alt="Screenshot 3">
+                    <img class="screenshot" src="/images/server_manager_4.jpeg" alt="Screenshot 4">
+                    <img class="screenshot" src="/images/server_manager_5.jpeg" alt="Screenshot 5">
+                </div>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/notificator">notificator</a>
+                <a href="https://github.com/namebogsecret/notificator"><i class="fab fa-github"></i>&nbsp;notificator</a>
                 <p class="repo-description">Notification system built with Python.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/make-real-starter">make-real-starter</a>
+                <a href="https://github.com/namebogsecret/make-real-starter"><i class="fab fa-github"></i>&nbsp;make-real-starter</a>
                 <p class="repo-description">Fork of tldraw's make-real-starter project.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/sqlite_to_postgress">sqlite_to_postgress</a>
+                <a href="https://github.com/namebogsecret/sqlite_to_postgress"><i class="fab fa-github"></i>&nbsp;sqlite_to_postgress</a>
                 <p class="repo-description">Migration tool from SQLite to PostgreSQL.</p>
             </li>
             <li>
-                <a href="https://github.com/namebogsecret/assistent">assistent</a>
+                <a href="https://github.com/namebogsecret/assistent"><i class="fab fa-github"></i>&nbsp;assistent</a>
                 <p class="repo-description">Voice assistant based on GPT technology.</p>
             </li>
+
         </ul>
     </div>
 </body>
+
 </html>
