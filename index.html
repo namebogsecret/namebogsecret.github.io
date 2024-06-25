@@ -93,18 +93,24 @@
             padding: 0;
             width: 90%;
             max-width: 1200px;
+            height: 70vh; /* Фиксированная высота окна 70% от высоты окна браузера */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-
+        
         .carousel {
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #222;
+            height: 100%;
         }
-
+        
         .carousel img {
             max-width: 100%;
-            max-height: 500px;
+            max-height: calc(100% - 50px); /* Учитываем место под стрелки */
+            margin: auto;
         }
 
         .prev,
@@ -172,6 +178,8 @@
             margin-top: 20px;
             font-size: 20px;
             color: #fff;
+            padding: 10px 0;
+            background-color: #222;
         }
     </style>
 </head>
