@@ -48,6 +48,7 @@
 
         li {
             margin-bottom: 1rem;
+            cursor: pointer;
         }
 
         a {
@@ -66,14 +67,90 @@
             color: #555;
         }
 
-        .screenshot-container {
-            margin-top: 1rem;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.9);
         }
 
-        .screenshot {
-            width: 100%;
-            max-width: 600px;
-            margin-top: 1rem;
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .carousel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel img {
+            max-width: 100%;
+            max-height: 500px;
+        }
+
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            margin-top: -22px;
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
         }
     </style>
 </head>
@@ -84,60 +161,182 @@
     </header>
     <div class="container">
         <ul>
-            <li>
-                <a href="https://pypi.org/project/butch-filename-substring-remover/"><i class="fab fa-python"></i>&nbsp;butch-filename-substring-remover</a>
-                <p class="repo-description">Tool for removing substrings from filenames and directories available on PyPI.</p>
+            <li onclick="openModal('server_manager')">
+                <i class="fab fa-github"></i>&nbsp;server_manager
+                <p class="repo-description">Server management scripts written in Python.</p>
             </li>
-            <li>
-                <a href="https://github.com/namebogsecret/Automatizator"><i class="fab fa-github"></i>&nbsp;Automatizator</a>
-                <p class="repo-description">Automation scripts for various tasks written in Python.</p>
-            </li>
-            <li>
-                <a href="https://github.com/namebogsecret/butch_filename_substring_remover"><i class="fab fa-github"></i>&nbsp;butch_filename_substring_remover</a>
-                <p class="repo-description">Tool for removing substrings from filenames and directories.</p>
-            </li>
-            <li>
-                <a href="https://github.com/namebogsecret/first-contributions"><i class="fab fa-github"></i>&nbsp;first-contributions</a>
-                <p class="repo-description">Helping beginners contribute to open source projects.</p>
-            </li>
-            <li>
-                <a href="https://github.com/namebogsecret/namebogsecret.github.io"><i class="fab fa-github"></i>&nbsp;namebogsecret.github.io</a>
-                <p class="repo-description">My personal website hosted on GitHub Pages.</p>
-            </li>
-            <li>
-                <a href="https://github.com/namebogsecret/learnarmenianalphabet"><i class="fab fa-github"></i>&nbsp;learnarmenianalphabet</a>
+            <li onclick="openModal('learnarmenianalphabet')">
+                <i class="fab fa-github"></i>&nbsp;learnarmenianalphabet
                 <p class="repo-description">Script for learning the Armenian alphabet.</p>
             </li>
-            <li>
-                <a href="https://github.com/namebogsecret/server_manager"><i class="fab fa-github"></i>&nbsp;server_manager</a>
-                <p class="repo-description">Server management scripts written in Python.</p>
-                <div class="screenshot-container">
-                    <img class="screenshot" src="/images/server_manager_1.jpeg" alt="Screenshot 1">
-                    <img class="screenshot" src="/images/server_manager_2.jpeg" alt="Screenshot 2">
-                    <img class="screenshot" src="/images/server_manager_3.jpeg" alt="Screenshot 3">
-                    <img class="screenshot" src="/images/server_manager_4.jpeg" alt="Screenshot 4">
-                    <img class="screenshot" src="/images/server_manager_5.jpeg" alt="Screenshot 5">
-                </div>
+            <li onclick="openModal('namebogsecret.github.io')">
+                <i class="fab fa-github"></i>&nbsp;namebogsecret.github.io
+                <p class="repo-description">My personal website hosted on GitHub Pages.</p>
             </li>
-            <li>
-                <a href="https://github.com/namebogsecret/notificator"><i class="fab fa-github"></i>&nbsp;notificator</a>
+            <li onclick="openModal('first-contributions')">
+                <i class="fab fa-github"></i>&nbsp;first-contributions
+                <p class="repo-description">Helping beginners contribute to open source projects.</p>
+            </li>
+            <li onclick="openModal('butch_filename_substring_remover')">
+                <i class="fab fa-github"></i>&nbsp;butch_filename_substring_remover
+                <p class="repo-description">Tool for removing substrings from filenames and directories.</p>
+            </li>
+            <li onclick="openModal('Automatizator')">
+                <i class="fab fa-github"></i>&nbsp;Automatizator
+                <p class="repo-description">Automation scripts for various tasks written in Python.</p>
+            </li>
+            <li onclick="openModal('butch-filename-substring-remover')">
+                <i class="fab fa-python"></i>&nbsp;butch-filename-substring-remover
+                <p class="repo-description">Tool for removing substrings from filenames and directories available on PyPI.</p>
+            </li>
+            <li onclick="openModal('notificator')">
+                <i class="fab fa-github"></i>&nbsp;notificator
                 <p class="repo-description">Notification system built with Python.</p>
             </li>
-            <li>
-                <a href="https://github.com/namebogsecret/make-real-starter"><i class="fab fa-github"></i>&nbsp;make-real-starter</a>
+            <li onclick="openModal('make-real-starter')">
+                <i class="fab fa-github"></i>&nbsp;make-real-starter
                 <p class="repo-description">Fork of tldraw's make-real-starter project.</p>
             </li>
-            <li>
-                <a href="https://github.com/namebogsecret/sqlite_to_postgress"><i class="fab fa-github"></i>&nbsp;sqlite_to_postgress</a>
+            <li onclick="openModal('sqlite_to_postgress')">
+                <i class="fab fa-github"></i>&nbsp;sqlite_to_postgress
                 <p class="repo-description">Migration tool from SQLite to PostgreSQL.</p>
             </li>
-            <li>
-                <a href="https://github.com/namebogsecret/assistent"><i class="fab fa-github"></i>&nbsp;assistent</a>
+            <li onclick="openModal('assistent')">
+                <i class="fab fa-github"></i>&nbsp;assistent
                 <p class="repo-description">Voice assistant based on GPT technology.</p>
             </li>
-
         </ul>
     </div>
+
+    <div id="modal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="carousel">
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <img id="modal-image" class="modal-image">
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+        </div>
+        <div id="caption" class="caption"></div>
+        <a id="github-link" href="" target="_blank" style="color: #fff;">View on GitHub</a>
+    </div>
+
+    <script>
+        var currentSlideIndex = 0;
+        var images = {
+            'server_manager': [
+                "/images/server_manager_1.jpeg",
+                "/images/server_manager_2.jpeg",
+                "/images/server_manager_3.jpeg",
+                "/images/server_manager_4.jpeg",
+                "/images/server_manager_5.jpeg"
+            ],
+            'learnarmenianalphabet': [
+                "/images/armenian_1.jpeg"
+            ],
+            'namebogsecret.github.io': [],
+            'first-contributions': [],
+            'butch_filename_substring_remover': [
+                "/images/otklik_1.jpeg",
+                "/images/otklik_2.jpeg"
+            ],
+            'Automatizator': [
+                "/images/gpt_1.jpeg",
+                "/images/gpt_2.jpeg"
+            ],
+            'butch-filename-substring-remover': [],
+            'notificator': [
+                "/images/instagram_1.jpeg",
+                "/images/instagram_2.jpeg",
+                "/images/instagram_3.jpeg"
+            ],
+            'make-real-starter': [],
+            'sqlite_to_postgress': [],
+            'assistent': []
+        };
+
+        function openModal(repo) {
+            var modal = document.getElementById("modal");
+            var modalImg = document.getElementById("modal-image");
+            var captionText = document.getElementById("caption");
+            var githubLink = document.getElementById("github-link");
+
+            if (images[repo].length > 0) {
+                currentSlideIndex = 0;
+                modalImg.src = images[repo][currentSlideIndex];
+                captionText.innerHTML = getDescription(repo);
+                githubLink.href = getGithubLink(repo);
+                modal.style.display = "block";
+            } else {
+                window.location.href = getGithubLink(repo);
+            }
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("modal");
+            modal.style.display = "none";
+        }
+
+        function changeSlide(n) {
+            var modalImg = document.getElementById("modal-image");
+            currentSlideIndex += n;
+            if (currentSlideIndex >= images[repo].length) currentSlideIndex = 0;
+            if (currentSlideIndex < 0) currentSlideIndex = images[repo].length - 1;
+            modalImg.src = images[repo][currentSlideIndex];
+        }
+
+        function getDescription(repo) {
+            switch (repo) {
+                case 'server_manager':
+                    return "Server management scripts written in Python.";
+                case 'learnarmenianalphabet':
+                    return "Script for learning the Armenian alphabet.";
+                case 'butch_filename_substring_remover':
+                    return "Tool for removing substrings from filenames and directories.";
+                case 'Automatizator':
+                    return "Automation scripts for various tasks written in Python.";
+                case 'notificator':
+                    return "Notification system built with Python.";
+                default:
+                    return "";
+            }
+        }
+
+        function getGithubLink(repo) {
+            switch (repo) {
+                case 'server_manager':
+                    return "https://github.com/namebogsecret/server_manager";
+                case 'learnarmenianalphabet':
+                    return "https://github.com/namebogsecret/learnarmenianalphabet";
+                case 'namebogsecret.github.io':
+                    return "https://github.com/namebogsecret/namebogsecret.github.io";
+                case 'first-contributions':
+                    return "https://github.com/namebogsecret/first-contributions";
+                case 'butch_filename_substring_remover':
+                    return "https://github.com/namebogsecret/butch_filename_substring_remover";
+                case 'Automatizator':
+                    return "https://github.com/namebogsecret/Automatizator";
+                case 'butch-filename-substring-remover':
+                    return "https://pypi.org/project/butch-filename-substring-remover/";
+                case 'notificator':
+                    return "https://github.com/namebogsecret/notificator";
+                case 'make-real-starter':
+                    return "https://github.com/namebogsecret/make-real-starter";
+                case 'sqlite_to_postgress':
+                    return "https://github.com/namebogsecret/sqlite_to_postgress";
+                case 'assistent':
+                    return "https://github.com/namebogsecret/assistent";
+                default:
+                    return "";
+            }
+        }
+
+        // Close the modal when clicking outside of the modal content
+        window.onclick = function(event) {
+            var modal = document.getElementById("modal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var img = new Image();
