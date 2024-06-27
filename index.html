@@ -214,49 +214,53 @@
     <div class="container">
         <ul>
             <li onclick="openModal('server_manager')">
-                <i class="fab fa-github"></i>&nbsp;server_manager
-                <p class="repo-description">Server management scripts written in Python.</p>
+                <i class="fab fa-github"></i>&nbsp;Server Manager
+                <p class="repo-description">Server management telegram bot written in Python. </p>
             </li>
             <li onclick="openModal('learnarmenianalphabet')">
-                <i class="fab fa-github"></i>&nbsp;learnarmenianalphabet
-                <p class="repo-description">Script for learning the Armenian alphabet.</p>
+                <i class="fab fa-github"></i>&nbsp;Learn Armenian Alphabet
+                <p class="repo-description">Telegram bot for learning the Armenian alphabet.</p>
             </li>
             <li onclick="openModal('namebogsecret.github.io')">
-                <i class="fab fa-github"></i>&nbsp;namebogsecret.github.io
-                <p class="repo-description">My personal website hosted on GitHub Pages.</p>
+                <i class="fab fa-github"></i>&nbsp;This web page
+                <p class="repo-description">My personal website hosted on GitHub.</p>
             </li>
             <li onclick="openModal('first-contributions')">
                 <i class="fab fa-github"></i>&nbsp;first-contributions
                 <p class="repo-description">Helping beginners contribute to open source projects.</p>
             </li>
-            <li onclick="openModal('butch_filename_substring_remover')">
-                <i class="fab fa-github"></i>&nbsp;butch_filename_substring_remover
-                <p class="repo-description">Tool for removing substrings from filenames and directories.</p>
-            </li>
             <li onclick="openModal('Automatizator')">
                 <i class="fab fa-github"></i>&nbsp;Automatizator
-                <p class="repo-description">Automation scripts for various tasks written in Python.</p>
+                <p class="repo-description">Automation of responses to new customer requests on the platform for tutors with statistics control via a telegram bot.</p>
             </li>
             <li onclick="openModal('butch-filename-substring-remover')">
                 <i class="fab fa-python"></i>&nbsp;butch-filename-substring-remover
                 <p class="repo-description">Tool for removing substrings from filenames and directories available on PyPI.</p>
             </li>
             <li onclick="openModal('notificator')">
-                <i class="fab fa-github"></i>&nbsp;notificator
-                <p class="repo-description">Notification system built with Python.</p>
-            </li>
-            <li onclick="openModal('make-real-starter')">
-                <i class="fab fa-github"></i>&nbsp;make-real-starter
-                <p class="repo-description">Fork of tldraw's make-real-starter project.</p>
+                <i class="fab fa-github"></i>&nbsp;Notificator
+                <p class="repo-description">Notification system combyning many of my server services built with Python.</p>
             </li>
             <li onclick="openModal('sqlite_to_postgress')">
-                <i class="fab fa-github"></i>&nbsp;sqlite_to_postgress
-                <p class="repo-description">Migration tool from SQLite to PostgreSQL.</p>
+                <i class="fab fa-github"></i>&nbsp;Migrate from SQLite to PostgreSQL
+                <p class="repo-description">Migration tool from SQLite to PostgreSQL written on Python.</p>
             </li>
             <li onclick="openModal('assistent')">
-                <i class="fab fa-github"></i>&nbsp;assistent
-                <p class="repo-description">Voice assistant based on GPT technology.</p>
+                <i class="fab fa-github"></i>&nbsp;Jarvis
+                <p class="repo-description">Voice assistant based on OpenAI technology. Written befor OpneAI released their own voice assistant.</p>
             </li>
+            <li onclick="openModal('instagram')">
+                <i class="fab fa-github"></i>&nbsp;Instagram
+                <p class="repo-description">Instagram bot for automating wrighting and generating content.</p>
+            </li>
+            <li onclick="openModal('gpt_telegram_bot')">
+                <i class="fab fa-github"></i>&nbsp;GPT Telegram Bot
+                <p class="repo-description">GPT-4 telegram clone, for answering questions, generating text, generating images, answering questions about images, editing images, and more.</p>
+            </li>
+            <li onclick="openModal('pomodoro_timer')">
+                <i class="fab fa-github"></i>&nbsp;Pomodoro Timer
+                <p class="repo-description">Desktop pomodoro timer for productivity.</p>
+    </div>
         </ul>
     </div>
 
@@ -284,26 +288,32 @@
                 "/images/server_manager_4.jpeg",
                 "/images/server_manager_5.jpeg"
             ],
+            'pomodoro_timer': [
+                "pomodoro_timer_1.png",
+                "pomodoro_timer_3.png"
+            ],
             'learnarmenianalphabet': [
                 "/images/armenian_1.jpeg"
             ],
             'namebogsecret.github.io': [],
             'first-contributions': [],
-            'butch_filename_substring_remover': [
-                "/images/otklik_1.jpeg",
-                "/images/otklik_2.jpeg"
-            ],
-            'Automatizator': [
-                "/images/gpt_1.jpeg",
-                "/images/gpt_2.jpeg"
-            ],
-            'butch-filename-substring-remover': [],
-            'notificator': [
+            'butch_filename_substring_remover': [],
+            'instagram': [
                 "/images/instagram_1.jpeg",
                 "/images/instagram_2.jpeg",
                 "/images/instagram_3.jpeg"
             ],
-            'make-real-starter': [],
+            'Automatizator': [
+                "/images/otklik_1.jpeg",
+                "/images/otklik_2.jpeg"
+            ],
+            'gpt_telegram_bot': [
+                "/images/gpt_1.jpeg",
+                "/images/gpt_2.jpeg"
+            ],
+            'notificator': [
+                "/images/uvedomlenia_1.jpeg",
+            ],
             'sqlite_to_postgress': [],
             'assistent': []
         };
@@ -342,15 +352,29 @@
         function getDescription(repo) {
             switch (repo) {
                 case 'server_manager':
-                    return "Server management scripts written in Python.";
+                    return "Server management telegram bot written in Python.";
                 case 'learnarmenianalphabet':
-                    return "Script for learning the Armenian alphabet.";
+                    return "Telegram bot for learning the Armenian alphabet.";
                 case 'butch_filename_substring_remover':
                     return "Tool for removing substrings from filenames and directories.";
                 case 'Automatizator':
-                    return "Automation scripts for various tasks written in Python.";
+                    return "Automation of responses to new customer requests on the platform for tutors with statistics control via a telegram bot.";
                 case 'notificator':
-                    return "Notification system built with Python.";
+                    return "Notification system combyning many of my server services built with Python.";
+                case 'sqlite_to_postgress':
+                    return "Migration tool from SQLite to PostgreSQL written on Python.";
+                case 'assistent':
+                    return "Voice assistant based on OpenAI technology. Written befor OpneAI released their own voice assistant.";
+                case 'instagram':
+                    return "Instagram bot for automating wrighting and generating content.";
+                case 'gpt_telegram_bot':
+                    return "GPT-4 telegram clone, for answering questions, generating text, generating images, answering questions about images, editing images, and more.";
+                case 'pomodoro_timer':
+                    return "Desktop pomodoro timer for productivity.";
+                case 'git.podlevskikh.com':
+                    return "My personal website hosted on GitHub.";
+                case 'first-contributions':
+                    return "Helping beginners contribute to open source projects.";
                 default:
                     return "";
             }
@@ -366,20 +390,25 @@
                     return "https://github.com/namebogsecret/namebogsecret.github.io";
                 case 'first-contributions':
                     return "https://github.com/namebogsecret/first-contributions";
-                case 'butch_filename_substring_remover':
-                    return "https://github.com/namebogsecret/butch_filename_substring_remover";
                 case 'Automatizator':
                     return "https://github.com/namebogsecret/Automatizator";
                 case 'butch-filename-substring-remover':
                     return "https://pypi.org/project/butch-filename-substring-remover/";
                 case 'notificator':
                     return "https://github.com/namebogsecret/notificator";
-                case 'make-real-starter':
-                    return "https://github.com/namebogsecret/make-real-starter";
                 case 'sqlite_to_postgress':
                     return "https://github.com/namebogsecret/sqlite_to_postgress";
                 case 'assistent':
                     return "https://github.com/namebogsecret/assistent";
+                case 'instagram':
+                    return "https://www.instagram.com/globalviewsai/";
+                case 'gpt_telegram_bot':
+                    return "";
+                case 'pomodoro_timer':
+                    return "https://github.com/namebogsecret/Pomodoro";
+                case 'git.podlevskikh.com':
+                    return "https://git.podlevskikh.com";
+                
                 default:
                     return "";
             }
