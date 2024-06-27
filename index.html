@@ -329,8 +329,21 @@
                 currentSlideIndex = 0;
                 modalImg.src = images[repo][currentSlideIndex];
                 captionText.innerHTML = getDescription(repo);
-                githubLink.href = getGithubLink(repo);
-                modal.style.display = "block";
+                if (getGithubLink(repo) === "") {
+                    githubLink.style.display = "none";
+                } else {
+                    githubLink.style.display = "block";
+                    githubLink.href = getGithubLink(repo);
+                }
+                if (repo == 'instagram') {
+                    githubLink.innerHTML = "Instagram";
+                } else if (repo == 'butch_filename_substring_remover') {
+                    githubLink.innerHTML = "View on PyPI";
+                } else {
+                    githubLink.innerHTML = "View on GitHub";
+                }
+                // githubLink.href = getGithubLink(repo);
+                // modal.style.display = "block";
             } else {
                 window.location.href = getGithubLink(repo);
             }
