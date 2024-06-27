@@ -335,15 +335,16 @@
                     githubLink.style.display = "block";
                     githubLink.href = getGithubLink(repo);
                 }
-                // if (repo == 'instagram') {
-                //     githubLink.innerHTML = "Instagram";
-                // } else{
-                //     if (repo == 'butch_filename_substring_remover') {
-                //         githubLink.innerHTML = "View on PyPI";
-                //     } else {
-                //         githubLink.innerHTML = "View on GitHub";
-                //     }
-                // }
+                if (repo == 'instagram') {
+                    githubLink.innerHTML = "Instagram";
+                } else{
+                    if (repo == 'butch_filename_substring_remover') {
+                        githubLink.innerHTML = "View on PyPI";
+                    } else {
+                        githubLink.innerHTML = "View on GitHub";
+                    }
+                }
+                modal.style.display = "block";
             } else {
                 window.location.href = getGithubLink(repo);
             }
