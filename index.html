@@ -1,313 +1,498 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/icon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icon/favicon-16x16.png">
-    <link rel="manifest" href="/icon/site.webmanifest">
-    <link rel="mask-icon" href="/icon/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <title>My Projects and GitHub Repositories</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <script>
-        // Перенаправление на HTTPS, если сайт открыт по HTTP
-        if (location.protocol !== 'https:') {
-            location.replace(`https:${location.href.substring(location.protocol.length)}`);
-        }
-        
-        document.addEventListener("DOMContentLoaded", function() {
-        // Отправка пикселя при загрузке страницы
-        sendPixel("Page Load");
-
-        // Найти все ссылки на странице
-        var links = document.querySelectorAll('a, li');
-
-        links.forEach(function(link) {
-            link.addEventListener('click', function(event) {
-                var targetText = event.target.innerText || event.target.textContent || "Unknown";
-                sendPixel(targetText);
-            });
-        });
-    });
-
-    function sendPixel(action) {
-        var img = new Image();
-        var uniqueParam = new Date().getTime();
-        img.src = "https://stat.podlevskikh.com/pixel.jpg?website=" + encodeURIComponent(window.location.href) + "&action=" + encodeURIComponent(action) + "&unique=" + uniqueParam;
-        img.style.display = "none";
-        document.body.appendChild(img);
-    }
-    </script>
+    <title>My GitHub Repositories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            background-color: #f4f4f4;
+            color: #333;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
         }
 
         header {
-            background-color: #333;
+            background-color: #24292e;
             color: #fff;
-            padding: 1rem 0;
             text-align: center;
+            padding: 2rem 0;
         }
 
         h1 {
             margin: 0;
+            font-size: 2.5rem;
         }
 
-        .container {
-            width: 80%;
-            margin: 2rem auto;
-            background-color: #fff;
-            padding: 2rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        .subtitle {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
         }
 
-        ul {
-            list-style: none;
-            padding: 0;
+        nav {
+            margin-top: 1rem;
         }
 
-        li {
-            margin-bottom: 1rem;
+        .filter-btn {
+            background-color: #2ea44f;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
-        a {
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #22863a;
         }
 
-        a:hover {
-            text-decoration: underline;
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .repo-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .repo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .repo-card h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: #0366d6;
         }
 
         .repo-description {
-            color: #555;
+            font-size: 0.9rem;
+            color: #586069;
+            margin-bottom: 1rem;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            padding-top: 60px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.9);
+        .repo-tech, .repo-skills {
+            margin-bottom: 0.5rem;
         }
 
-        .modal-content {
-            position: relative;
-            margin: auto;
-            padding: 0;
-            width: 90%;
-            max-width: 1200px;
-            height: 70vh; /* Фиксированная высота окна 70% от высоты окна браузера */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .carousel {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #222;
-            height: 100%;
-        }
-        
-        .carousel img {
-            max-width: 100%;
-            max-height: calc(100% - 50px); /* Учитываем место под стрелки */
-            margin: auto;
+        .tech-tag, .skill-tag {
+            display: inline-block;
+            background-color: #f1f8ff;
+            color: #0366d6;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .prev,
-        .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            margin-top: -22px;
-            padding: 16px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-        
-        .prev {
-            left: 0;
-            border-radius: 3px 0 0 3px;
-        }
-        
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
+        .view-on-github {
+            display: inline-block;
+            background-color: #24292e;
             color: #fff;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: #bbb;
             text-decoration: none;
-            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
         }
 
-        .caption {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            text-align: center;
-            color: #ccc;
-            padding: 10px 0;
-            height: 150px;
+        .view-on-github:hover {
+            background-color: #0366d6;
         }
 
-        .github-link {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            font-size: 20px;
+        footer {
+            background-color: #24292e;
             color: #fff;
-            padding: 10px 0;
-            background-color: #222;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
         }
+
+        .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+        }
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    width: 80%;
+    max-width: 800px;
+    height: 80vh;
+    max-height: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: #f4f4f4; */
+    background-color: #24292e;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+    /* padding: 20px; */
+    padding: 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
+    padding-bottom: 70px;
+}
+
+.modal-header {
+    background-color: #24292e;
+    padding: 15px;
+    margin: 0;
+}
+.modal-body {
+    padding: 20px;
+}
+#modal-title {
+    color: #fff;
+    margin: 0;
+    font-size: 1.5em;
+}
+.modal-image {
+    flex-grow: 1;
+    max-width: 100%;
+    margin-top: 15px;
+    max-height: calc(100% - 180px); /* Adjust based on caption and button height */
+    object-fit: contain;
+    margin: 0 auto;
+}
+#caption {
+    /* margin: 15px 0  80px  0; */
+    height: 80px; /* Adjust as needed */
+    overflow-y: auto;
+    margin-bottom: 20px; /* Space above the button */
+    padding: 0 20px; /* Side padding */
+    text-align: center;
+    color: #fff;
+}
+.github-link {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    padding: 10px;
+    /* color: #fff; */
+    text-align: center;
+
+    background-color: #2ea44f;
+    color: #fff;
+    /* padding: 10px 20px; */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+.close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    /* top: 10px;
+    right: 20px; */
+    /* color: #fff; */
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+#github-link:hover {
+    background-color: #22863a;
+}
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: #fff;
+    background-color: rgba(0,0,0,0.5);
+    padding: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+
+
+/* @media (min-width: 768px) {
+    .modal-content {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .modal-image {
+        max-width: 60%;
+        max-height: 80%;
+    }
+
+    #caption {
+        max-width: 35%;
+        max-height: 80%;
+        padding-left: 20px;
+    }
+} */
+
     </style>
 </head>
-
 <body>
     <header>
         <h1>My GitHub Repositories</h1>
+        <p class="subtitle">Showcasing my projects in AI, automation, and web development</p>
+        <nav>
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="ai-nlp">AI & NLP</button>
+            <button class="filter-btn" data-filter="automation-bots">Automation & Bots</button>
+            <button class="filter-btn" data-filter="web">Web Dev</button>
+            <button class="filter-btn" data-filter="utilities">Utilities</button>
+        </nav>
     </header>
-    <div class="container">
-        <ul>
-            <li onclick="openModal('gpt_telegram_bot')">
-                <i class="fab fa-github"></i>&nbsp;GPT-4 Powered Telegram Bot
+       <main>
+        <div class="repo-grid">
+            <div class="repo-card" data-category="ai-nlp automation-bots" onclick="openModal('gpt_telegram_bot')" aria-label="GPT-4 Powered Telegram Bot">
+                <h2><i class="fab fa-github"></i> GPT-4 Powered Telegram Bot</h2>
                 <p class="repo-description">Full-featured AI assistant using OpenAI's GPT-4 API for text generation, image creation/editing, and Q&A.</p>
-                <p class="repo-tech">Tech Stack: Python, Telegram API, OpenAI API, Docker</p>
-                <p class="repo-skills">Key Skills: AI integration, API development, natural language processing</p>
-            </li>
-            
-            <li onclick="openModal('assistent')">
-                <i class="fab fa-github"></i>&nbsp;Jarvis: Advanced Voice Assistant
-                <p class="repo-description">Custom voice assistant leveraging OpenAI technology for voice recognition, natural language understanding, and task automation.</p>
-                <p class="repo-tech">Tech Stack: Python, OpenAI API, Speech Recognition libraries</p>
-                <p class="repo-skills">Key Skills: AI implementation, speech processing, system integration</p>
-            </li>
-            
-            <li onclick="openModal('Automatizator')">
-                <i class="fab fa-github"></i>&nbsp;Automatizator: Customer Service Automation
-                <p class="repo-description">Streamlined customer request handling for tutoring platforms with automated responses and statistics tracking via Telegram.</p>
-                <p class="repo-tech">Tech Stack: Python, Telegram Bot API, SQL database</p>
-                <p class="repo-skills">Key Skills: Process automation, data analysis, bot development</p>
-            </li>
-            
-            <li onclick="openModal('server_manager')">
-                <i class="fab fa-telegram"></i>&nbsp;Server Manager
-                <p class="repo-description">Comprehensive server management solution via Telegram interface for remote command execution, status monitoring, and alert system.</p>
-                <p class="repo-tech">Tech Stack: Python, Telegram API, Linux system commands</p>
-                <p class="repo-skills">Key Skills: System administration, secure remote management, bot development</p>
-            </li>
-            
-            <li onclick="openModal('notificator')">
-                <i class="fab fa-github"></i>&nbsp;Notificator: Multi-Service Notification System
-                <p class="repo-description">Centralized notification handler for various server services with custom alerts and multi-channel notifications.</p>
-                <p class="repo-tech">Tech Stack: Python, multiple APIs integration</p>
-                <p class="repo-skills">Key Skills: System integration, API development, notification optimization</p>
-            </li>
-            
-            <li onclick="openModal('sqlite_to_postgress')">
-                <i class="fab fa-github"></i>&nbsp;SQLite to PostgreSQL Migration Tool
-                <p class="repo-description">Efficient database migration utility for schema transfer, data integrity checks, and performance optimization.</p>
-                <p class="repo-tech">Tech Stack: Python, SQLite, PostgreSQL</p>
-                <p class="repo-skills">Key Skills: Database management, data migration, SQL optimization</p>
-            </li>
-            
-            <li onclick="openModal('instagram')">
-                <i class="fab fa-instagram"></i>&nbsp;Instagram Content Automation Bot
-                <p class="repo-description">Automated content creation and posting for Instagram with content generation, scheduling, and analytics features.</p>
-                <p class="repo-tech">Tech Stack: Python, Instagram API, NLP libraries</p>
-                <p class="repo-skills">Key Skills: Social media automation, content management, API integration</p>
-            </li>
-            
-            <li onclick="openModal('pomodoro_timer')">
-                <i class="fab fa-github"></i>&nbsp;Pomodoro Timer
-                <p class="repo-description">Productivity-enhancing desktop application with customizable intervals, notifications, and activity logging.</p>
-                <p class="repo-tech">Tech Stack: Python, GUI framework (e.g., PyQt or Tkinter)</p>
-                <p class="repo-skills">Key Skills: Desktop application development, UI/UX design</p>
-            </li>
-            
-            <li onclick="openModal('butch_filename_substring_remover')">
-                <i class="fab fa-python"></i>&nbsp;Batch Filename Substring Remover
-                <p class="repo-description">Efficient file management utility for bulk file renaming and directory processing, available on PyPI.</p>
-                <p class="repo-tech">Tech Stack: Python, OS libraries, PyPI packaging</p>
-                <p class="repo-skills">Key Skills: File system operations, command-line tool development, package distribution</p>
-            </li>
-            
-            <li onclick="openModal('learnarmenianalphabet')">
-                <i class="fab fa-github"></i>&nbsp;Armenian Alphabet Learning Bot
-                <p class="repo-description">Educational Telegram bot for interactive Armenian language learning with progress tracking and audio pronunciations.</p>
-                <p class="repo-tech">Tech Stack: Python, Telegram Bot API, language learning algorithms</p>
-                <p class="repo-skills">Key Skills: Educational technology, language processing, interactive bot design</p>
-            </li>
-            
-            <li onclick="openModal('namebogsecret.github.io')">
-                <i class="fab fa-github"></i>&nbsp;Personal Portfolio Website
-                <p class="repo-description">Showcase of professional projects and skills with responsive design, project gallery, and contact form.</p>
-                <p class="repo-tech">Tech Stack: HTML, CSS, JavaScript, GitHub Pages</p>
-                <p class="repo-skills">Key Skills: Web development, personal branding, version control</p>
-            </li>
-            
-            <li onclick="openModal('first-contributions')">
-                <i class="fab fa-github"></i>&nbsp;Open Source Contribution Guide
-                <p class="repo-description">Resource for newcomers to open source development with step-by-step tutorials, best practices, and contribution opportunities.</p>
-                <p class="repo-tech">Tech Stack: Markdown, Git, GitHub</p>
-                <p class="repo-skills">Key Skills: Technical writing, open source collaboration, community building</p>
-            </li>
-        </ul>
-    </div>
-
-    <div id="modal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-content">
-            <div class="carousel">
-                <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-                <img id="modal-image" class="modal-image">
-                <a class="next" onclick="changeSlide(1)">&#10095;</a>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Telegram API</span>
+                    <span class="tech-tag">OpenAI API</span>
+                    <span class="tech-tag">Docker</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">AI integration</span>
+                    <span class="skill-tag">API development</span>
+                    <span class="skill-tag">NLP</span>
+                </div>
             </div>
-            <div id="caption" class="caption"></div>
+        
+            <div class="repo-card" data-category="ai-nlp automation-bots" onclick="openModal('assistent')" aria-label="Jarvis: Advanced Voice Assistant">
+                <h2><i class="fab fa-github"></i> Jarvis: Advanced Voice Assistant</h2>
+                <p class="repo-description">Custom voice assistant leveraging OpenAI technology for voice recognition, natural language understanding, and task automation.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">OpenAI API</span>
+                    <span class="tech-tag">Speech Recognition</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">AI implementation</span>
+                    <span class="skill-tag">Speech processing</span>
+                    <span class="skill-tag">System integration</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="automation-bots" onclick="openModal('Automatizator')" aria-label="Automatizator: Customer Service Automation">
+                <h2><i class="fab fa-github"></i> Automatizator: Customer Service Automation</h2>
+                <p class="repo-description">Streamlined customer request handling for tutoring platforms with automated responses and statistics tracking via Telegram.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Telegram Bot API</span>
+                    <span class="tech-tag">SQL</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">Process automation</span>
+                    <span class="skill-tag">Data analysis</span>
+                    <span class="skill-tag">Bot development</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="automation-bots" onclick="openModal('server_manager')" area-label="Server Manager">
+                <h2><i class="fab fa-github"></i> Server Manager</h2>
+                <p class="repo-description">Comprehensive server management solution via Telegram interface for remote command execution, status monitoring, and alert system.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Telegram API</span>
+                    <span class="tech-tag">Linux</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">System administration</span>
+                    <span class="skill-tag">Secure remote management</span>
+                    <span class="skill-tag">Bot development</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="automation-bots" onclick="openModal('notificator')" area-label="Notificator: Multi-Service Notification System" >
+                <h2><i class="fab fa-github"></i> Notificator: Multi-Service Notification System</h2>
+                <p class="repo-description">Centralized notification handler for various server services with custom alerts and multi-channel notifications.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Multiple APIs</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">System integration</span>
+                    <span class="skill-tag">API development</span>
+                    <span class="skill-tag">Notification optimization</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="utilities" onclick="openModal('sqlite_to_postgress')" area-label="SQLite to PostgreSQL Migration Tool">
+                <h2><i class="fab fa-github"></i> SQLite to PostgreSQL Migration Tool</h2>
+                <p class="repo-description">Efficient database migration utility for schema transfer, data integrity checks, and performance optimization.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">SQLite</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">Database management</span>
+                    <span class="skill-tag">Data migration</span>
+                    <span class="skill-tag">SQL optimization</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="automation-bots" onclick="openModal('instagram')" area-label="Instagram Content Automation Bot">
+                <h2><i class="fab fa-github"></i> Instagram Content Automation Bot</h2>
+                <p class="repo-description">Automated content creation and posting for Instagram with scheduling and analytics features.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Instagram API</span>
+                    <span class="tech-tag">NLP libraries</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">Social media automation</span>
+                    <span class="skill-tag">Content management</span>
+                    <span class="skill-tag">API integration</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="utilities" onclick="openModal('pomodoro_timer')" area-label="Pomodoro Timer">
+                <h2><i class="fab fa-github"></i> Pomodoro Timer</h2>
+                <p class="repo-description">Productivity-enhancing desktop application with customizable intervals, notifications, and activity logging.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">GUI framework</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">Desktop application development</span>
+                    <span class="skill-tag">UI/UX design</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="utilities" onclick="openModal('butch_filename_substring_remover')" area-label="Batch Filename Substring Remover">
+                <h2><i class="fab fa-github"></i> Batch Filename Substring Remover</h2>
+                <p class="repo-description">Efficient file management utility available on PyPI for bulk file renaming and directory processing.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">OS libraries</span>
+                    <span class="tech-tag">PyPI</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">File system operations</span>
+                    <span class="skill-tag">Command-line tool development</span>
+                    <span class="skill-tag">Package distribution</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="ai-nlp automation-bots" onclick="openModal('learnarmenianalphabet')" area-label="Armenian Alphabet Learning Bot">
+                <h2><i class="fab fa-github"></i> Armenian Alphabet Learning Bot</h2>
+                <p class="repo-description">Educational Telegram bot for language learning with interactive lessons, progress tracking, and audio pronunciations.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Telegram Bot API</span>
+                    <span class="tech-tag">Language learning algorithms</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">Educational technology</span>
+                    <span class="skill-tag">Language processing</span>
+                    <span class="skill-tag">Interactive bot design</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="web" onclick="openModal('namebogsecret.github.io')" area-label="Personal Portfolio Website">
+                <h2><i class="fab fa-github"></i> Personal Portfolio Website</h2>
+                <p class="repo-description">Showcase of professional projects and skills with responsive design, project gallery, and contact form.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">GitHub Pages</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">Web development</span>
+                    <span class="skill-tag">Personal branding</span>
+                    <span class="skill-tag">Version control</span>
+                </div>
+            </div>
+        
+            <div class="repo-card" data-category="web" onclick="openModal('first-contributions')" area-label="Open Source Contribution Guide">
+                <h2><i class="fab fa-github"></i> Open Source Contribution Guide</h2>
+                <p class="repo-description">Resource for newcomers to open source development with step-by-step tutorials, best practices, and contribution opportunities.</p>
+                <div class="repo-tech">
+                    <span class="tech-tag">Markdown</span>
+                    <span class="tech-tag">Git</span>
+                    <span class="tech-tag">GitHub</span>
+                </div>
+                <div class="repo-skills">
+                    <span class="skill-tag">Technical writing</span>
+                    <span class="skill-tag">Open source collaboration</span>
+                    <span class="skill-tag">Community building</span>
+                </div>
+            </div>
+        </div>
+       </main>
+
+    <footer>
+        <p>&copy; 2023 Your Name. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #24292e; padding: 15px;">
+                <h2 id="modal-title" style="color: #fff; margin: 0;"></h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <!-- <span class="close" onclick="closeModal()">&times;</span> -->
+            <img id="modal-image" class="modal-image">
+            <div id="caption"></div>
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
             <a id="github-link" class="github-link" href="" target="_blank">View on GitHub</a>
         </div>
     </div>
@@ -317,117 +502,131 @@
         var currentRepo = '';
         var images = {
             'server_manager': [
-                "/images/server_manager_1.jpeg",
-                "/images/server_manager_2.jpeg",
-                "/images/server_manager_3.jpeg",
-                "/images/server_manager_4.jpeg",
-                "/images/server_manager_5.jpeg"
+                "./images/server_manager_1.jpeg",
+                "./images/server_manager_2.jpeg",
+                "./images/server_manager_3.jpeg",
+                "./images/server_manager_4.jpeg",
+                "./images/server_manager_5.jpeg"
             ],
             'pomodoro_timer': [
-                "/images/pomodoro_timer_1.png",
-                "/images/pomodoro_timer_2.png"
+                "./images/pomodoro_timer_1.png",
+                "./images/pomodoro_timer_2.png"
             ],
             'learnarmenianalphabet': [
-                "/images/armenian_1.jpeg"
+                "./images/armenian_1.jpeg"
             ],
             'namebogsecret.github.io': [],
             'first-contributions': [],
             'butch_filename_substring_remover': [],
             'instagram': [
-                "/images/instagram_1.jpeg",
-                "/images/instagram_2.jpeg",
-                "/images/instagram_3.jpeg"
+                "./images/instagram_1.jpeg",
+                "./images/instagram_2.jpeg",
+                "./images/instagram_3.jpeg"
             ],
             'Automatizator': [
-                "/images/otklik_1.jpeg",
-                "/images/otklik_2.jpeg"
+                "./images/otklik_1.jpeg",
+                "./images/otklik_2.jpeg"
             ],
             'gpt_telegram_bot': [
-                "/images/gpt_1.jpeg",
-                "/images/gpt_2.jpeg"
+                "./images/gpt_1.jpeg",
+                "./images/gpt_2.jpeg"
             ],
             'notificator': [
-                "/images/uvedomlenia_1.jpeg",
+                "./images/uvedomlenia_1.jpeg",
             ],
             'sqlite_to_postgress': [],
             'assistent': []
         };
 
         function openModal(repo) {
-            currentRepo = repo;
-            var modal = document.getElementById("modal");
-            var modalImg = document.getElementById("modal-image");
-            var captionText = document.getElementById("caption");
-            var githubLink = document.getElementById("github-link");
+    if (!images[repo] || images[repo].length === 0) {
+        // Redirect to GitHub if no images
+        window.open(getGithubLink(repo), '_blank');
+        return;
+    }
 
-            if (images[repo].length > 0) {
-                currentSlideIndex = 0;
-                modalImg.src = images[repo][currentSlideIndex];
-                captionText.innerHTML = getDescription(repo);
-                if (getGithubLink(repo) === "") {
-                    githubLink.style.display = "none";
-                } else {
-                    githubLink.style.display = "block";
-                    githubLink.href = getGithubLink(repo);
-                }
-                if (repo == 'instagram') {
-                    githubLink.innerHTML = "Instagram";
-                } else{
-                    if (repo == 'butch_filename_substring_remover') {
-                        githubLink.innerHTML = "View on PyPI";
-                    } else {
-                        githubLink.innerHTML = "View on GitHub";
-                    }
-                }
-                modal.style.display = "block";
-            } else {
-                window.location.href = getGithubLink(repo);
-            }
-        }
+    var modal = document.getElementById("modal");
+    var modalTitle = document.getElementById("modal-title");
+    var projectTitle = document.querySelector(`[onclick="openModal('${repo}')"] h2`).textContent;
+    
+    modalTitle.textContent = projectTitle;
+    currentRepo = repo;
+    var modal = document.getElementById("modal");
+    var modalImg = document.getElementById("modal-image");
+    var captionText = document.getElementById("caption");
+    var githubLink = document.getElementById("github-link");
+    var prevButton = document.querySelector(".prev");
+    var nextButton = document.querySelector(".next");
+
+    currentSlideIndex = 0;
+    modalImg.src = images[repo][currentSlideIndex];
+    captionText.innerHTML = getDescription(repo);
+    
+    var link = getGithubLink(repo);
+    githubLink.href = link || "#";
+    githubLink.innerHTML = link ? (repo == 'instagram' ? "View on Instagram" : 
+                                   repo == 'butch_filename_substring_remover' ? "View on PyPI" : 
+                                   "View on GitHub") : "No link available";
+    
+    if (images[repo].length > 1) {
+        prevButton.style.display = "block";
+        nextButton.style.display = "block";
+    } else {
+        prevButton.style.display = "none";
+        nextButton.style.display = "none";
+    }
+
+    modal.style.display = "block";
+    document.querySelector('.modal-content').style.opacity = "0";
+setTimeout(() => {
+    document.querySelector('.modal-content').style.opacity = "1";
+}, 50);
+}
+
 
         function closeModal() {
             var modal = document.getElementById("modal");
             modal.style.display = "none";
         }
-
         function changeSlide(n) {
-            var modalImg = document.getElementById("modal-image");
-            currentSlideIndex += n;
-            if (currentSlideIndex >= images[currentRepo].length) currentSlideIndex = 0;
-            if (currentSlideIndex < 0) currentSlideIndex = images[currentRepo].length - 1;
-            modalImg.src = images[currentRepo][currentSlideIndex];
-        }
+    var modalImg = document.getElementById("modal-image");
+    currentSlideIndex += n;
+    if (currentSlideIndex >= images[currentRepo].length) currentSlideIndex = 0;
+    if (currentSlideIndex < 0) currentSlideIndex = images[currentRepo].length - 1;
+    modalImg.src = images[currentRepo][currentSlideIndex];
+}
 
-        function getDescription(repo) {
-            switch (repo) {
-                case 'server_manager':
-                    return "Server management telegram bot written in Python.";
-                case 'learnarmenianalphabet':
-                    return "Telegram bot for learning the Armenian alphabet.";
-                case 'butch_filename_substring_remover':
-                    return "Tool for removing substrings from filenames and directories.";
-                case 'Automatizator':
-                    return "Automation of responses to new customer requests on the platform for tutors with statistics control via a telegram bot.";
-                case 'notificator':
-                    return "Notification system combyning many of my server services built with Python.";
-                case 'sqlite_to_postgress':
-                    return "Migration tool from SQLite to PostgreSQL written on Python.";
-                case 'assistent':
-                    return "Voice assistant based on OpenAI technology. Written befor OpneAI released their own voice assistant.";
-                case 'instagram':
-                    return "Instagram bot for automating wrighting and generating content.";
-                case 'gpt_telegram_bot':
-                    return "GPT-4 telegram clone, for answering questions, generating text, generating images, answering questions about images, editing images, and more.";
-                case 'pomodoro_timer':
-                    return "Desktop pomodoro timer for productivity.";
-                case 'namebogsecret.github.io':
-                    return "My personal website hosted on GitHub.";
-                case 'first-contributions':
-                    return "Helping beginners contribute to open source projects.";
-                default:
-                    return "";
-            }
-        }
+function getDescription(repo) {
+    switch (repo) {
+        case 'server_manager':
+            return "Comprehensive server management solution via Telegram interface for remote command execution, status monitoring, and alert system.";
+        case 'learnarmenianalphabet':
+            return "Educational Telegram bot for language learning with interactive lessons, progress tracking, and audio pronunciations.";
+        case 'butch_filename_substring_remover':
+            return "Efficient file management utility available on PyPI for bulk file renaming and directory processing.";
+        case 'Automatizator':
+            return "Streamlined customer request handling for tutoring platforms with automated responses and statistics tracking via Telegram.";
+        case 'notificator':
+            return "Centralized notification handler for various server services with custom alerts and multi-channel notifications.";
+        case 'sqlite_to_postgress':
+            return "Efficient database migration utility for schema transfer, data integrity checks, and performance optimization.";
+        case 'assistent':
+            return "Custom voice assistant leveraging OpenAI technology for voice recognition, natural language understanding, and task automation.";
+        case 'instagram':
+            return "Automated content creation and posting for Instagram with scheduling and analytics features.";
+        case 'gpt_telegram_bot':
+            return "Full-featured AI assistant using OpenAI's GPT-4 API for text generation, image creation/editing, and Q&A.";
+        case 'pomodoro_timer':
+            return "Productivity-enhancing desktop application with customizable intervals, notifications, and activity logging.";
+        case 'namebogsecret.github.io':
+            return "Showcase of professional projects and skills with responsive design, project gallery, and contact form.";
+        case 'first-contributions':
+            return "Resource for newcomers to open source development with step-by-step tutorials, best practices, and contribution opportunities.";
+        default:
+            return "";
+    }
+}
+
 
         function getGithubLink(repo) {
             switch (repo) {
@@ -477,6 +676,30 @@
             document.body.appendChild(img);
         });
     </script>
-</body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const repoCards = document.querySelectorAll('.repo-card');
 
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.getAttribute('data-filter');
+                    
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    repoCards.forEach(card => {
+                        const categories = card.getAttribute('data-category').split(' ');
+                        if (filter === 'all' || categories.includes(filter)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
 </html>
