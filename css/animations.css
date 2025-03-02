@@ -1,0 +1,194 @@
+/* Анимации для сайта-портфолио */
+
+/* Анимация перехода тем */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Анимация при наведении на карточки проектов */
+.project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Анимация появления при прокрутке */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-in {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.slide-in.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Анимация для модального окна */
+.modal-container {
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal.active .modal-container {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.modal-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active .modal-overlay {
+    opacity: 1;
+}
+
+/* Анимация для изображений в галерее */
+.modal-image {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-image.loaded {
+    opacity: 1;
+}
+
+/* Анимация для кнопок фильтра */
+.filter-btn {
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    transform: translateY(-1px);
+}
+
+/* Анимация для заголовков */
+.site-title, .site-subtitle {
+    animation: fadeInDown 0.8s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Анимация для ссылок в подвале */
+.social-links a {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+}
+
+/* Анимация для появления тегов */
+.modal-tag, .card-tag {
+    animation: popIn 0.4s ease;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Анимация загрузки страницы */
+.site-main {
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Пульсирующая анимация для кнопок */
+.primary-btn:hover {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(37, 99, 235, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+    }
+}
+
+/* Плавное появление плейсхолдера изображения */
+.placeholder-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    color: var(--text-secondary);
+    font-size: 3rem;
+    background-color: var(--bg-secondary);
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: 0.2s;
+}
+
+/* Стили для загрузки изображений */
+.modal-image-container::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border: 3px solid var(--accent-color);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+.modal-image.loaded + .modal-image-container::before {
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
