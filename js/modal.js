@@ -16,7 +16,24 @@ const modalState = {
   function openProjectModal(project) {
     console.log("Открываем модальное окно для проекта:", project.title);
     console.log("Изображения проекта:", project.images);
-    
+    if (modalState.images.length > 0) {
+        // Устанавливаем обработчик загрузки
+        const imageContainer = document.querySelector('.modal-image-container');
+        imageContainer.classList.add('loading');
+        modalImage.style.opacity = '0.3';
+        
+        modalImage.onload = function() {
+          modalImage.classList.add('loaded');
+          setTimeout(() => {
+            imageContainer.classList.remove('loading');
+            modalImage.style.opacity = '1';
+          }, 300);
+        };
+        
+        modalImage.src = modalState.images[0];
+        modalImage.alt = project.title;
+        document.querySelector('.modal-gallery').style.display = 'block';
+    }
     modalState.currentProject = project;
     modalState.images = project.images || [];
     modalState.currentImageIndex = 0;
@@ -161,42 +178,85 @@ const modalState = {
     // Для file:// протокола возвращаем полный путь
     return `${basePath}/${cleanPath}`;
   }
-
-  function showImage(index) {
-        if (index < 0 || index >= modalState.images.length) return;
-        
-        // Обновляем текущий индекс
-        modalState.currentImageIndex = index;
-        
-        // Обновляем изображение
-        const modalImage = document.getElementById('modal-image');
-        
-        // Добавляем обработчик ошибок
-        modalImage.onerror = function() {
-            console.error("Ошибка загрузки изображения:", modalState.images[index]);
-            // Устанавливаем плейсхолдер
-            this.src = 'https://via.placeholder.com/800x600?text=Image+Not+Found';
-        };
-        
-        // Преобразуем путь для корректной загрузки
-        let imagePath = modalState.images[index];
-        
-        // Если путь начинается с "./" или "/", удаляем эти символы
-        if (imagePath.startsWith('./')) imagePath = imagePath.substring(2);
-        if (imagePath.startsWith('/')) imagePath = imagePath.substring(1);
-        
-        // Устанавливаем исправленный путь
-        modalImage.src = imagePath;
-        
-        // Обновляем активную точку
-        const dots = document.querySelectorAll('.gallery-dot');
-        dots.forEach(dot => {
-            dot.classList.remove('active');
-            if (parseInt(dot.getAttribute('data-index')) === index) {
-                dot.classList.add('active');
-            }
-        });
+  function createImageLoader(imagePath, title) {
+    return new Promise((resolve) => {
+      // Проверяем, является ли путь data URL
+      if (imagePath.startsWith('data:')) {
+        resolve(imagePath);
+        return;
+      }
+      
+      // Очищаем путь
+      let cleanPath = imagePath;
+      if (cleanPath.startsWith('./')) cleanPath = cleanPath.substring(2);
+      if (cleanPath.startsWith('/')) cleanPath = cleanPath.substring(1);
+      
+      // Пробуем загрузить изображение
+      const img = new Image();
+      
+      img.onload = function() {
+        resolve(cleanPath); // Изображение загрузилось успешно
+      };
+      
+      img.onerror = function() {
+        console.warn("Не удалось загрузить изображение:", imagePath);
+        // Возвращаем плейсхолдер
+        resolve(`https://via.placeholder.com/800x600?text=${encodeURIComponent(title)}`);
+      };
+      
+      img.src = cleanPath;
+    });
+  }
+  // Затем в функции showImage:
+  async function showImage(index) {
+    if (index < 0 || index >= modalState.images.length) return;
+    
+    modalState.currentImageIndex = index;
+    
+    const modalImage = document.getElementById('modal-image');
+    const imageContainer = document.querySelector('.modal-image-container');
+    
+    // Удаляем класс loaded и добавляем loading
+    modalImage.classList.remove('loaded');
+    imageContainer.classList.add('loading');
+    modalImage.style.opacity = '0.3';
+    
+    try {
+      // Получаем действительный URL изображения
+      const imageUrl = await createImageLoader(
+        modalState.images[index], 
+        modalState.currentProject.title
+      );
+      
+      // Устанавливаем обработчик загрузки
+      modalImage.onload = function() {
+        // Когда изображение загружено, добавляем класс loaded
+        modalImage.classList.add('loaded');
+        setTimeout(() => {
+          imageContainer.classList.remove('loading');
+          modalImage.style.opacity = '1';
+        }, 300);
+      };
+      
+      // Устанавливаем изображение
+      modalImage.src = imageUrl;
+      
+      // Обновляем активную точку
+      const dots = document.querySelectorAll('.gallery-dot');
+      dots.forEach(dot => {
+        dot.classList.remove('active');
+        if (parseInt(dot.getAttribute('data-index')) === index) {
+          dot.classList.add('active');
+        }
+      });
+    } catch (error) {
+      console.error("Ошибка загрузки изображения:", error);
+      // В случае ошибки также убираем индикатор загрузки
+      modalImage.classList.add('loaded');
+      imageContainer.classList.remove('loading');
+      modalImage.style.opacity = '1';
     }
+  }
   
   /**
    * Инициализирует функциональность модального окна

@@ -169,8 +169,13 @@ body {
     animation-delay: 0.2s;
 }
 
-/* Стили для загрузки изображений */
-.modal-image-container::before {
+/* Замените существующие стили для индикатора загрузки в animations.css */
+
+.modal-image-container {
+    position: relative;
+  }
+  
+  .modal-image-container::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -182,13 +187,27 @@ body {
     border-radius: 50%;
     border-top-color: transparent;
     animation: spin 1s linear infinite;
-}
-
-.modal-image.loaded + .modal-image-container::before {
-    display: none;
-}
-
-@keyframes spin {
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  .modal-image-container.loading::before {
+    opacity: 1;
+  }
+  
+  /* Важное изменение - этот селектор должен быть скорректирован */
+  .modal-image.loaded {
+    opacity: 1 !important;
+  }
+  
+  .modal-image.loaded ~ .modal-image-container::before,
+  .modal-image-container:not(.loading)::before {
+    opacity: 0 !important;
+  }
+  
+  @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
+  }
