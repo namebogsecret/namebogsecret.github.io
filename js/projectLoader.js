@@ -79,7 +79,7 @@ function loadProjects() {
                 "id": "instagram",
                 "title": "Instagram Content Automation Bot",
                 "icon": "fa-instagram",
-                "description": "Automated content creation and posting for Instagram with scheduling.\n\nA project of Dall-e and GPT-4 integration.\n\nCompleatly unique content for your Instagram account.\n\nNo more boring posts.\nAnd no more time waste.",
+                "description": "Automated content creation and posting for Instagram with scheduling.\n\nA project of Dall-e and GPT-4 integration.\n\nCompletely unique content for your Instagram account.\n\nNo more boring posts.\nAnd no more time waste.",
                 "categories": ["automation-bots"],
                 "technologies": ["Python", "Instagram API", "NLP libraries"],
                 "skills": ["Social media automation", "Content management", "API integration"],
