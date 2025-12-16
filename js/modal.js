@@ -14,26 +14,7 @@ const modalState = {
    * @param {Object} project Данные о проекте
    */
   function openProjectModal(project) {
-    console.log("Открываем модальное окно для проекта:", project.title);
-    console.log("Изображения проекта:", project.images);
-    if (modalState.images.length > 0) {
-        // Устанавливаем обработчик загрузки
-        const imageContainer = document.querySelector('.modal-image-container');
-        imageContainer.classList.add('loading');
-        modalImage.style.opacity = '0.3';
-        
-        modalImage.onload = function() {
-          modalImage.classList.add('loaded');
-          setTimeout(() => {
-            imageContainer.classList.remove('loading');
-            modalImage.style.opacity = '1';
-          }, 300);
-        };
-        
-        modalImage.src = modalState.images[0];
-        modalImage.alt = project.title;
-        document.querySelector('.modal-gallery').style.display = 'block';
-    }
+    // Сначала инициализируем состояние
     modalState.currentProject = project;
     modalState.images = project.images || [];
     modalState.currentImageIndex = 0;
@@ -75,13 +56,17 @@ const modalState = {
     // Настраиваем кнопки
     if (project.githubLink) {
       githubLink.href = project.githubLink;
-      githubLink.textContent = 'Смотреть на GitHub';
+      githubLink.innerHTML = '<i class="fab fa-github"></i> Смотреть на GitHub';
       githubLink.style.display = 'flex';
     } else if (project.externalLink) {
       githubLink.href = project.externalLink;
-      githubLink.textContent = project.externalLink.includes('pypi') ? 'Смотреть на PyPI' : 
-                            project.externalLink.includes('instagram') ? 'Смотреть в Instagram' : 
-                            'Открыть ссылку';
+      if (project.externalLink.includes('pypi')) {
+        githubLink.innerHTML = '<i class="fab fa-python"></i> Смотреть на PyPI';
+      } else if (project.externalLink.includes('instagram')) {
+        githubLink.innerHTML = '<i class="fab fa-instagram"></i> Смотреть в Instagram';
+      } else {
+        githubLink.innerHTML = '<i class="fas fa-external-link-alt"></i> Открыть ссылку';
+      }
       githubLink.style.display = 'flex';
     } else {
       githubLink.style.display = 'none';
